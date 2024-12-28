@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    ports:
+      - "97:5000"
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER= root
+      - DB_PASSWORD= rootpassword
+      - DB_NAME= mydatabase
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  db_data:
